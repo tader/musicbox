@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Musicbox</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body class="bg-light">
+		<div id="app">
+			<header>
+				<nav class="navbar navbar-dark bg-dark shadow-sm">
+					<a class="navbar-brand" href="#">Musicbox</a>
+					<span :class="socket ? 'text-success' : 'text-danger'">⬤</span>
+				</nav>
+			</header>
+
+			<main role="main">
+
+
+				<section class="jumbotron text-center">
+					<div class="container">
+						<h1>{{ card.card_id ? card.card_id : "NO CARD PRESENT" }}</h1>
+						<p class="lead text-muted">{{ card.title ? card.title : "&nbsp;"}}</p>
+					</div>
+				</section>
+
+				<div class="container">
+					<div class="my-3 p-3 bg-white rounded shadow-sm">
+						<h6 class="border-bottom border-gray pb-2 mb-0">Favorites</h6>
+
+						<div v-for="fav in favorites" class="media text-muted pt-3 border-bottom border-gray">
+							<img v-if="fav.imageUrl" width="48" height="48" class="mr-2 rounded" :src="fav.imageUrl" />
+							<div v-if="!fav.imageUrl" style="min-width: 48px; min-height: 48px;" class="mr-2"></div>
+							<div class="media-body pb-3 mb-0 small lh-125">
+								<div class="d-flex justify-content-between align-items-center w-100">
+									<strong class="text-gray-dark">{{ fav.name }}</strong>
+									<button class="btn btn-link" @click="assign(fav, 'sonos.favorite')">Assign</button>
+								</div>
+								<span class="d-block">{{ fav.id }}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="my-3 p-3 bg-white rounded shadow-sm">
+						<h6 class="border-bottom border-gray pb-2 mb-0">Playlists</h6>
+
+						<div v-for="fav in playlists" class="media text-muted pt-3 border-bottom border-gray">
+							<img v-if="fav.imageUrl" width="48" height="48" class="mr-2 rounded" :src="fav.imageUrl" />
+							<div v-if="!fav.imageUrl" style="min-width: 48px; min-height: 48px;" class="mr-2"></div>
+							<div class="media-body pb-3 mb-0 small lh-125">
+								<div class="d-flex justify-content-between align-items-center w-100">
+									<strong class="text-gray-dark">{{ fav.name }}</strong>
+									<button class="btn btn-link" @click="assign(fav, 'sonos.playlist')">Assign</button>
+								</div>
+								<span class="d-block">{{ fav.id }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+		<script src="script.js"></script>
+	</body>
+</html>
