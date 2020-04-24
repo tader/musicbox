@@ -26,11 +26,16 @@ class CardReader():
         self.subscriptions.remove(queue)
 
     def fire(self, event) -> None:
+        full = set()
+
         for queue in self.subscriptions:
             if queue.full():
-                self.unsubscribe(subscription)
+                full.add(queue)
             else:
                 queue.put_nowait(event)
+
+        for queue in full:
+            self.unsubscribe(queue)
 
     async def launch(self):
         self.go = True
