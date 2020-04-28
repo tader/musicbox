@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		},
 		methods: {
 			assign: assign,
+			setShuffle: setShuffle,
 		},
 	});
 
@@ -50,14 +51,29 @@ document.addEventListener("DOMContentLoaded", () => {
 			;
 	}
 
-	function assign(fav, content_type) {
+	function setShuffle(shuffle) {
+		const card = app.card;
+
+		if (card && card.card_id) {
+			axios.post(`/assign/${card.card_id}`, {
+				title: card.title,
+				content_type: card.content_type,
+				content_id: card.content_id,
+				shuffle: shuffle,
+			}).then((res) => { app.card = res.data; }).catch((x) => { alert(x); });
+		} else {
+			// no card
+		}
+	}
+
+	function assign(fav, content_type, shuffle) {
 		if (fav && fav.id) {
 			if (app.card && app.card.card_id) {
 				axios.post(`/assign/${app.card.card_id}`, {
 					title: fav.name,
 					content_type: content_type,
 					content_id: fav.id,
-					shuffle: false,
+					shuffle: shuffle,
 				}).then((res) => { app.card = res.data; }).catch((x) => { alert(x); });
 			} else {
 				// no card
