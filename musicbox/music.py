@@ -19,8 +19,17 @@ class Music():
     def clear_queue(self):
         self.soco.clear_queue()
 
+    def volume(self):
+        if self.soco.volume >= 20 or self.soco.volume <=3 :
+            self.soco.volume = 10
+
+        if self.soco.mute:
+            self.soco.mute = False
+
     def play(self, card):
         if card.content_type and card.content_id:
+            self.volume()
+
             if self.playing_id != card.content_id or self.playing_type != card.content_type or self.playing_shuffle != card.shuffle:
                 if card.content_type == "sonos.playlist":
                     self.clear_queue()
