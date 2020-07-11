@@ -82,6 +82,11 @@ sudo pip3 install -r requirements.txt
 
 Setup a SONOS developer account and a new integration. [Instructions](https://github.com/bwilczynski/sonos-cli)
 
+```
+sonos config
+```
+Copy the Key for the Client Id and the secret for the secret.
+
 The `sonos login` command expects you to be able to run a webbrowser on the Pi.
 As workaround we can hack the command in the following way:
 
@@ -99,8 +104,9 @@ def login():
     print(url)  # <-- Add this print statement!
     webbrowser.open_new(url)
 ```
-
-During the `sonos login` command, the url will be printed, on your computer open the url, sign in and then you will be redirected to `http://localhost:5000/xxxxxxx`, the page will fail to load. Copy this url, open a new SSH connection to your Pi and execute `curl '<copied url>'`, eg., `curl 'http://localhost:5000/xxxxxxx'`. The login command will then succeed, most likely.
+Open a second SSH connection to your Pi
+Run `sonos login` from the first session. The url will be printed, copy it and on your computer paste it into a browser. Sign in and then you will be redirected to `http://localhost:5000/xxxxxxx`, copy this url from the browser.
+From the second session enter `curl '<copied url>'`, eg., `curl 'http://localhost:5000/xxxxxxx'`. The login command will then succeed and you can close the second shell.
 
 Execute the following commands to login and set your household and group:
 
