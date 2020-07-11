@@ -116,6 +116,10 @@ sonos set household
 sonos set group
 ```
 
+Make sonos cli available from the pi user:
+```
+sudo ln -s /home/pi/.sonos-cli /root/.sonos-cli
+```
 
 ## Usage
 
