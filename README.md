@@ -74,7 +74,7 @@ sudo apt-get install \
 
 git clone https://github.com/tader/musicbox
 cd musicbox
-sudo pip3 install -r musicbox/requirements.txt
+sudo pip3 install -r requirements.txt
 ```
 
 
