@@ -13,12 +13,21 @@
 			<header>
 				<nav class="navbar navbar-dark bg-dark shadow-sm">
 					<a class="navbar-brand" href="#">Musicbox</a>
+					<form class="form-inline">
+						<select class="form-control" @change="zonesChanged($event)" multiple>
+							<option
+								v-for="zone in zones" 
+								:selected="zone.selected"
+								:value="zone.serial_number"
+							>{{zone.zone_name}}</option>
+						</select>
+					</form>
+
 					<span :class="socket ? 'text-success' : 'text-danger'">⬤</span>
 				</nav>
 			</header>
 
 			<main role="main">
-
 
 				<section class="jumbotron text-center">
 					<div class="container">

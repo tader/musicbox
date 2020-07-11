@@ -6,25 +6,63 @@ from sonos.decorators import output_option, format_result, login_required, auto_
 
 import soco
 
+from .config import Config
+
 
 class Music():
     def __init__(self):
+        self.config = Config()
         self.group_id = active_group_store.get_active_group()
         self.playing_id = None
         self.playing_type = None
         self.playing_shuffle = False
         self.paused = False
-        self.soco = list(soco.discover())[0]
+
+        self._zones_cached = None
+        self._zones = []
+
+    def zones(self):
+        selected = self.config.get("zones", [])
+        if self._zones_cached != selected:
+            if len(selected) == 0:
+                zones = list(soco.discover())
+            else:
+                zones = [
+                    zone
+                    for zone in soco.discover()
+                    if zone.get_speaker_info()["serial_number"] in selected
+                ]
+            self._zones = zones
+            self._zones_cached = selected
+        return self._zones
+
+    def group(self):
+        coordinator, *members = self.zones()
+
+        #if not coordinator.is_coordinator:
+        #    coordinator.unjoin()
+
+        for member in members:
+            if member not in coordinator.group.members:
+                member.join(coordinator)
+
+        self.set_group(coordinator.group.uid)
+
+        return coordinator.group
+
+    def coordinator(self):
+        return self.group().coordinator
 
     def clear_queue(self):
-        self.soco.clear_queue()
+        self.coordinator().clear_queue()
 
     def volume(self):
-        if self.soco.volume >= 20 or self.soco.volume <=3 :
-            self.soco.volume = 10
+        for zone in self.zones():
+            if zone.volume >= 20 or zone.volume <=3:
+                zone.volume = 13
 
-        if self.soco.mute:
-            self.soco.mute = False
+            if zone.mute:
+                zone.mute = False
 
     def play(self, card):
         if card.content_type and card.content_id:
@@ -113,4 +151,11 @@ class Music():
         )
         result = control._json(response)
         return result
+
+    @login_required
+    @auto_refresh_token(control.client)
+    def set_group(self, group_id):
+        if self.group_id != group_id:
+            active_group_store.save_active_group(group_id)
+            self.group_id = group_id
 

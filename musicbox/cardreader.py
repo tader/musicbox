@@ -13,6 +13,7 @@ class CardReader():
         self.go = True
         self.subscriptions = set()
         self.current = None
+        self.led = 37
 
     def stop(self):
         self.go = False
@@ -45,9 +46,12 @@ class CardReader():
         while self.go:
             try:
                 reader = SimpleMFRC522()
+                GPIO.setup(self.led, GPIO.OUT)
 
                 while self.go:
                     id, text = reader.read_no_block()
+
+                    GPIO.output(self.led, GPIO.HIGH if id else GPIO.LOW)
 
                     if not id:
                         if self.current:

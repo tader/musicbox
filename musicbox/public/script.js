@@ -6,10 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			card: {},
 			favorites: [],
 			playlists: [],
+			zones: [],
 		},
 		methods: {
 			assign: assign,
 			setShuffle: setShuffle,
+			zonesChanged: zonesChanged,
 		},
 	});
 
@@ -51,6 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			;
 	}
 
+	function loadZones() {
+		axios.get('/discover')
+			.then((res) => { app.zones = res.data; })
+			;
+	}
+
 	function setShuffle(shuffle) {
 		const card = app.card;
 
@@ -81,7 +89,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
+	function zonesChanged(event) {
+		const selected = [...event.target.options]
+		                     .filter((x) => x.selected)
+		                     .map((x)=>x.value);
+		
+		axios.put("/zones", selected)
+			.then((res) => { }).catch((x) => { alert(x); });
+	}
+
 	openWebSocket();
 	loadFavorites();
 	loadPlaylists();
+	loadZones();
 });

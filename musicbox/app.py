@@ -4,11 +4,15 @@ from sanic import Sanic
 from sanic.response import json
 from os.path import dirname, join
 
+from .config import Config
 from .cardreader import CardReader
 from .music import Music
 from .cards import Card, Cards
 
+import soco
+
 class App():
+    config: Config
     card_reader: CardReader
     app: Sanic
     music: Music
@@ -16,6 +20,7 @@ class App():
 
     def __init__(self, card_reader, music):
         self.card_reader = card_reader
+        self.config = Config()
         self.music = Music()
         self.cards = Cards()
 
@@ -77,4 +82,25 @@ class App():
                     await event(card)
                 else:
                     await event(None)
+
+        @app.route("/discover")
+        async def discover(request):
+            zones = self.config.get("zones", [])
+
+            return json([
+                {
+                    **speaker.get_speaker_info(),
+                    "selected": bool(speaker.get_speaker_info()["serial_number"] in zones)
+                }
+                for speaker in soco.discover()
+            ])
+
+        @app.route("/zones", methods=["PUT", "POST"])
+        async def set_zones(request):
+            z = [
+                    str(x) for x in request.json
+            ]
+            self.config.set("zones", z)
+            print(request.json)
+            return json({"zones": z})
 
