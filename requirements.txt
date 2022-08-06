@@ -4,35 +4,68 @@
 #
 #    pip-compile
 #
---extra-index-url https://www.piwheels.org/simple
-
-aiofiles==0.5.0           # via sanic
-certifi==2020.4.5.1       # via httpx, requests
-chardet==3.0.4            # via httpx, requests
-click==7.1.2              # via sonos-cli
-h11==0.9.0                # via httpx
-h2==3.2.0                 # via httpx
-hpack==3.0.0              # via h2
-hstspreload==2020.5.30    # via httpx
-httptools==0.1.1          # via sanic
-httpx==0.11.1             # via sanic
-hyperframe==5.2.0         # via h2
-idna==2.9                 # via httpx, requests
-mfrc522==0.0.7            # via -r requirements.in
-multidict==4.7.6          # via sanic
-oauthlib==3.1.0           # via requests-oauthlib
-requests-oauthlib==1.3.0  # via sonos-cli
-requests==2.23.0          # via requests-oauthlib, soco, sonos-cli
-rfc3986==1.4.0            # via httpx
-rpi.gpio==0.7.0           # via mfrc522
-sanic==20.3.0             # via -r requirements.in
-sniffio==1.1.0            # via httpx
-soco==0.19                # via -r requirements.in
-sonos-cli==0.3.5          # via -r requirements.in
-spidev==3.4               # via -r requirements.in, mfrc522
-tabulate==0.8.7           # via sonos-cli
-ujson==2.0.3              # via sanic
-urllib3==1.25.9           # via httpx, requests
-uvloop==0.14.0            # via sanic
-websockets==8.1           # via sanic
-xmltodict==0.12.0         # via soco
+aiofiles==0.8.0
+    # via sanic
+certifi==2020.4.5.1
+    # via
+    #   httpx
+    #   requests
+chardet==3.0.4
+    # via requests
+click==7.1.2
+    # via sonos-cli
+h11==0.9.0
+    # via httpcore
+httpcore==0.11.1
+    # via httpx
+httptools==0.1.1
+    # via sanic
+httpx==0.15.4
+    # via sanic
+idna==2.9
+    # via
+    #   requests
+    #   rfc3986
+mfrc522==0.0.7
+    # via -r requirements.in
+multidict==5.2.0
+    # via sanic
+oauthlib==3.1.0
+    # via requests-oauthlib
+requests==2.23.0
+    # via
+    #   requests-oauthlib
+    #   soco
+    #   sonos-cli
+requests-oauthlib==1.3.0
+    # via sonos-cli
+rfc3986[idna2008]==1.4.0
+    # via httpx
+rpi-gpio==0.7.0
+    # via mfrc522
+sanic==20.12.7
+    # via -r requirements.in
+sniffio==1.1.0
+    # via
+    #   httpcore
+    #   httpx
+soco==0.19
+    # via -r requirements.in
+sonos-cli==0.3.5
+    # via -r requirements.in
+spidev==3.4
+    # via
+    #   -r requirements.in
+    #   mfrc522
+tabulate==0.8.7
+    # via sonos-cli
+ujson==2.0.3
+    # via sanic
+urllib3==1.25.9
+    # via requests
+uvloop==0.14.0
+    # via sanic
+websockets==8.1
+    # via sanic
+xmltodict==0.12.0
+    # via soco
